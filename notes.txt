@@ -1,0 +1,11 @@
+Activity Monitor
+
+browser-program / React+Redux (create-react-app)
+    - UI of our CPU usage, process list, whta python version is installed
+        node version is stialled
+    - front-end program
+
+server-program / Express (Node.js)
+    - Routes that will programatically run terminal commands on our machine
+        - top
+        - ps
