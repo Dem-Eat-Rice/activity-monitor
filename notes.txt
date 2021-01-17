@@ -2,8 +2,12 @@ Activity Monitor
 
 browser-program / React+Redux (create-react-app)
     - UI of our CPU usage, process list, whta python version is installed
-        node version is stialled
+        node version is installed
     - front-end program
+        - report to the user the current CPU usage of the machine that the server is running on
+            - percentage of CPU to display as a number, bar component
+            - user some contorls on how often the server is contacted for updated info
+            - turn off polling / turn back on
 
 server-program / Express (Node.js)
     - Routes that will programatically run terminal commands on our machine
