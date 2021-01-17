@@ -9,21 +9,24 @@ const PORT = 5000;
 
 const WSL = 'top -b -n 2 | grep "%Cpu"';
 
-app.get('/cpu-usage', async (req, res) => {
+app.get('/cpu-usage', async (req, res, next) => {
     const outputOfCommand = await exec(WSL);
     const commandDetails = outputOfCommand.stdout;
     const secondLine = commandDetails.split('\n')[1];
     const splitSecondLine = secondLine.split(' ');
-    const cpuUsage = parseFloat(splitSecondLine[1]) + parseFloat(splitSecondLine[4]);
-    console.log(splitSecondLine)
+    let cpuUsage = parseFloat(splitSecondLine[1]) + parseFloat(splitSecondLine[4]);
     if (isNaN(cpuUsage)) {
-        next( new Error('CPU usage was NaN'))
+        cpuUsage = parseFloat(splitSecondLine[2]) + parseFloat(splitSecondLine[5]);
+        if (isNaN(cpuUsage)) {
+            next(new Error('CPU usage was NaN'));
+            return;
+        }
     }
     res.json({ cpuUsage: cpuUsage.toString() + '%' });
 });
 
 app.use((err, req, res, next) => {
-    res.status((500).json({ error: err.message }))
+    res.status(500).json({ error: err.message })
 })
 
 app.listen(PORT, () => {
