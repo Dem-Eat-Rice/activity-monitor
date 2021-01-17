@@ -15,8 +15,16 @@ app.get('/cpu-usage', async (req, res) => {
     const secondLine = commandDetails.split('\n')[1];
     const splitSecondLine = secondLine.split(' ');
     const cpuUsage = parseFloat(splitSecondLine[1]) + parseFloat(splitSecondLine[4]);
+    console.log(splitSecondLine)
+    if (isNaN(cpuUsage)) {
+        next( new Error('CPU usage was NaN'))
+    }
     res.json({ cpuUsage: cpuUsage.toString() + '%' });
 });
+
+app.use((err, req, res, next) => {
+    res.status((500).json({ error: err.message }))
+})
 
 app.listen(PORT, () => {
     console.log(`Server process listening on port ${PORT}~`);
